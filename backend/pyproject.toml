@@ -1,9 +1,13 @@
 [project]
 name = "dineswap"
 version = "0.1.0"
-description = "Add your description here"
+description = "Restaurant rating system"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi-cli>=0.0.7",
     "fastapi>=0.115.12",
+    "pydantic>=2.11.3",
+    "python-dotenv>=1.1.0",
+    "uvicorn>=0.34.1",
 ]
