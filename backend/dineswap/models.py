@@ -26,6 +26,7 @@ class Restaurant(SQLModel, table=True):
     address: str
     image: str
     rating: int = Field(gt=0, lt=6)
+    rooms: list["Room"] = Relationship(back_populates="restaurants", link_model=RoomRestaurants)
     created_at: datetime = Field(
         default_factory=datetime.now,
     )
@@ -39,10 +40,13 @@ class Room(SQLModel, table=True):
     deadline: datetime = Field(
         default_factory=lambda: datetime.now() + timedelta(hours=1)
     )
-    restaurants: list[Restaurant] = Relationship(link_model=RoomRestaurants)
+    restaurants: list[Restaurant] = Relationship(back_populates="rooms", link_model=RoomRestaurants)
     created_at: datetime = Field(
         default_factory=datetime.now,
     )
+
+    def valid_deadline(self) -> bool:
+        return self.deadline > datetime.now()
 
 
 class Vote(SQLModel, table=True):

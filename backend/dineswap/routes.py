@@ -2,9 +2,9 @@ from typing import Sequence
 
 from fastapi import APIRouter, HTTPException, Request
 
-from .schema import CreateRoomSchema, JoinRoomSchema
+from .schema import CreateRoomSchema, VoteOnRestaurantSchema
 from .models import Room, Restaurant
-import crud
+import dineswap.crud as crud
 
 router = APIRouter()
 
@@ -18,16 +18,21 @@ def create_room(payload: CreateRoomSchema) -> Room:
     return crud.create_room(payload)
 
 
-@router.post("/join-room")
-def join_room(payload: JoinRoomSchema, request: Request) -> Room:
-    return crud.join_room(payload, request)
+@router.get("/room/{shortcode}")
+def join_room(shortcode: str, request: Request) -> Room:
+    return crud.join_room(shortcode, request)
 
 
-@router.post("room/{room_id}/vote")
-def vote(payload):
-    pass
+@router.get("/room/{room_id}/restaurants")
+def get_restaurants(room_id: int) -> Sequence[Restaurant]:
+    return crud.get_room_restaurants(room_id)
 
-@router.get("room/{room_id}/result")
+
+@router.post("/room/vote")
+def vote(payload: VoteOnRestaurantSchema, request: Request):
+    return crud.vote_on_restaurant(payload, request)
+
+@router.get("/room/{room_id}/result")
 def get_vote_results():
     pass
 

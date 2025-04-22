@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class CreateRoomSchema(BaseModel):
@@ -9,3 +9,12 @@ class CreateRoomSchema(BaseModel):
 
 class JoinRoomSchema(BaseModel):
     shortcode: str
+
+
+class RestaurantVote(BaseModel):
+    points: int = Field(gt=0, lt=4)
+    id: int
+
+class VoteOnRestaurantSchema(BaseModel):
+    votes: list[RestaurantVote]
+    room_id: int

@@ -7,7 +7,7 @@ from .routes import router
 
 app = FastAPI(title="Dineswap API", description="Backend OpenAPI endpoints for Dineswap")
 
-app.include_router(router, prefix="api/v1")
+app.include_router(router, prefix="/api/v1")
 
 
 
